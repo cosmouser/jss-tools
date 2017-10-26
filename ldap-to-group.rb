@@ -58,7 +58,7 @@ def list_found_groups(comp_list)
 end
 
 # create missing groups
-def create_missing_groups(found_groups)
+def create_missing_groups(found_groups, existing_groups)
         groups_to_be_made = []
         found_groups.delete_if {|g| g =~ /(#{existing_groups.join("|")})/}
         found_groups.size.times {|g|
@@ -99,7 +99,7 @@ def make_groups_and_assign_computers
         comp_list = add_ldap_to_computer_list(make_computer_list)
         existing_groups = make_existing_groups_list
         found_groups = list_found_groups(comp_list)
-        create_missing_groups(found_groups)
+        create_missing_groups(found_groups, existing_groups)
         group_objs = turn_group_names_into_objects(found_groups)
         add_computers_to_groups(group_objs, comp_list)
 end
